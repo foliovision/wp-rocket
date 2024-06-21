@@ -1,5 +1,6 @@
 <?php
-defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Add WP REST API path to cache exclusion
@@ -40,7 +41,7 @@ function rocket_exclude_wp_rest_api( $uri ) {
 	 * - Single site:        (/index\.php)?/wp\-json(/.*|$)
 	 * - Multisite: (/[^/]+)?(/index\.php)?/wp\-json(/.*|$)
 	 */
-	$uri[] = $prefix . '/(' . $index . '/)?' . $suffix . '(/.*|$)';
+	$uri[] = $prefix . '/(' . $index . '/)?(.*)' . $suffix . '(/.*|$)';
 
 	return $uri;
 }

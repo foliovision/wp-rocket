@@ -1,57 +1,42 @@
 <?php
-defined( 'WP_UNINSTALL_PLUGIN' ) || die( 'Cheatin&#8217; uh?' );
+
+defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 if ( ! defined( 'WP_ROCKET_CACHE_ROOT_PATH' ) ) {
 	define( 'WP_ROCKET_CACHE_ROOT_PATH', WP_CONTENT_DIR . '/cache/' );
 }
 
-// Delete all transients.
-delete_site_transient( 'update_wprocket' );
-delete_site_transient( 'update_wprocket_response' );
-delete_transient( 'wp_rocket_settings' );
-delete_transient( 'rocket_cloudflare_ips' );
-delete_transient( 'rocket_send_analytics_data' );
-
-// Delete WP Rocket options.
-delete_option( 'wp_rocket_settings' );
-delete_option( 'rocket_analytics_notice_displayed' );
-
-// Delete Compatibility options.
-delete_option( 'rocket_jetpack_eu_cookie_widget' );
-
-// Delete all user meta related to WP Rocket.
-delete_metadata( 'user', '', 'rocket_boxes', '', true );
-
-// Clear scheduled WP Rocket Cron.
-wp_clear_scheduled_hook( 'rocket_purge_time_event' );
-wp_clear_scheduled_hook( 'rocket_database_optimization_time_event' );
-
-/**
- * Remove all cache files.
- *
- * @since 1.2.0
- *
- * @param string $dir Path to directory.
- */
-function rocket_uninstall_rrmdir( $dir ) {
-
-	if ( ! is_dir( $dir ) ) {
-		@unlink( $dir );
-		return;
-	}
-
-	$globs = glob( $dir . '/*', GLOB_NOSORT );
-	if ( $globs ) {
-		foreach ( $globs as $file ) {
-			is_dir( $file ) ? rocket_uninstall_rrmdir( $file ) : @unlink( $file );
-		}
-	}
-
-	@rmdir( $dir );
-
+if ( ! defined( 'WP_ROCKET_CONFIG_PATH' ) ) {
+	define( 'WP_ROCKET_CONFIG_PATH', WP_CONTENT_DIR . '/wp-rocket-config/' );
 }
 
-rocket_uninstall_rrmdir( WP_ROCKET_CACHE_ROOT_PATH . 'wp-rocket/' );
-rocket_uninstall_rrmdir( WP_ROCKET_CACHE_ROOT_PATH . 'min/' );
-rocket_uninstall_rrmdir( WP_ROCKET_CACHE_ROOT_PATH . 'busting/' );
-rocket_uninstall_rrmdir( WP_CONTENT_DIR . '/wp-rocket-config/' );
+require_once __DIR__ . '/inc/Engine/WPRocketUninstall.php';
+
+// RUCSS Database Engine.
+require_once __DIR__ . '/inc/Dependencies/Database/Base.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Column.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Schema.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Query.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Row.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Table.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Queries/Meta.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Queries/Date.php';
+require_once __DIR__ . '/inc/Dependencies/Database/Queries/Compare.php';
+require_once __DIR__ . '/inc/Engine/Common/Database/TableInterface.php';
+require_once __DIR__ . '/inc/Engine/Common/Database/Tables/AbstractTable.php';
+require_once __DIR__ . '/inc/Engine/Optimization/RUCSS/Database/Tables/UsedCSS.php';
+require_once __DIR__ . '/inc/Engine/Preload/Database/Tables/Cache.php';
+require_once __DIR__ . '/inc/Engine/Media/AboveTheFold/Database/Tables/AboveTheFold.php';
+
+$rocket_rucss_usedcss_table = new WP_Rocket\Engine\Optimization\RUCSS\Database\Tables\UsedCSS();
+$rocket_cache_table         = new WP_Rocket\Engine\Preload\Database\Tables\Cache();
+$rocket_atf_table           = new WP_Rocket\Engine\Media\AboveTheFold\Database\Tables\AboveTheFold();
+$rocket_uninstall           = new WPRocketUninstall(
+	WP_ROCKET_CACHE_ROOT_PATH,
+	WP_ROCKET_CONFIG_PATH,
+	$rocket_rucss_usedcss_table,
+	$rocket_cache_table,
+	$rocket_atf_table
+	);
+
+$rocket_uninstall->uninstall();

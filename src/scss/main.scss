@@ -34,6 +34,11 @@ More informations here : https://suitcss.github.io/ or http://www.alsacreations.
 @import "layout/_Content";
 @import "layout/_Page";
 @import "layout/_Popin";
+@import "layout/_Rocketcdn";
+@import "layout/_Rocketanalytics";
+@import "layout/_Upgrade";
+@import "layout/_Promotion";
+@import "layout/_Renewals";
 
 //--> Components
 @import "components/_menuItem";
@@ -49,7 +54,8 @@ More informations here : https://suitcss.github.io/ or http://www.alsacreations.
 @import "components/_notice";
 @import "components/_tools";
 @import "components/_imagify";
-@import "components/_adblock";
+@import "components/_tutorials";
+@import "components/_modal";
 
 //--> _fieldsContainer
 @import "components/fields/_checkbox";
@@ -59,3 +65,5 @@ More informations here : https://suitcss.github.io/ or http://www.alsacreations.
 @import "components/fields/_text";
 @import "components/fields/_file";
 @import "components/fields/_multiple";
+@import "components/fields/_multiselect";
+@import "components/fields/_categorizedmultiselect";

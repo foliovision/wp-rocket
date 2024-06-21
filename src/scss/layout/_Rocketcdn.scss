@@ -1,0 +1,235 @@
+// main: ../main.scss
+
+/*-----------------------------------------------*\
+
+    RocketCDN Banners & CTA
+
+\*-----------------------------------------------*/
+.wpr-rocketcdn-cta-small {
+    border-radius: 5px;
+    margin: $space * 3 0;
+    padding: $space * 2;
+
+    &.wpr-isHidden{
+        display: none;
+    }
+
+    .notice-title {
+        font-weight: 700;
+    }
+
+    .wpr-flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include respond-to('xs') {
+            text-align: start;
+            flex-direction: column;
+        }
+    }
+}
+
+.wpr-rocketcdn-cta {
+    margin:10px 0;
+    position: relative;
+
+    &.wpr-isHidden{
+        display: none;
+    }
+
+    &-close {
+        position: absolute;
+        top: $space *2;
+        right: $space * 2;
+        background: transparent;
+        border: 0;
+        color: rgba( 255, 255, 255, 0.5 );
+
+        &--no-promo {
+            position: absolute;
+            top: $space *2;
+            right: $space * 2;
+            background: transparent;
+            border: 0;
+            color: rgba( 0, 0, 0, 0.5 );
+
+            &:before {
+                content: "\2715";
+			    font-weight: 700;
+			    @include font-size(24,32);
+            }
+        }
+
+        &:before {
+            content: "\2715";
+		    color: $cBlack;
+		    font-weight: 700;
+		    @include font-size(24,32);
+        }
+    }
+
+    .wpr-rocketcdn-promo {
+        background: $brightSun;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        padding: $space *2 $space *6 $space *2 $space *2;
+
+	  &-title {
+		font-weight: 700;
+		@include font-size(24,32);
+	  }
+
+        &-date {
+            margin: 0;
+		    font-weight: 500;
+		    @include font-size(16,24);
+        }
+    }
+
+    &-subtitle {
+        color: $cGreyDark1;
+        margin-top: 0;
+        @include font-size(14,24);
+    }
+
+    &-content {
+        background: $cGreyLight3;
+        border-top: 1px solid $cGreyLight1;
+        border-left: 1px solid $cGreyLight1;
+        border-right: 1px solid $cGreyLight1;
+        padding: $space * 2;
+
+        &--no-promo {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            background: $cGreyLight3;
+            border-top: 1px solid $cGreyLight1;
+            border-left: 1px solid $cGreyLight1;
+            border-right: 1px solid $cGreyLight1;
+            padding: $space * 2;
+        }
+    }
+
+    .wpr-flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include respond-to('xs') {
+            text-align: start;
+            flex-direction: column;
+        }
+    }
+
+    .wpr-rocketcdn-features {
+        margin: 0;
+        padding-right: $space *2;
+
+        @include respond-to('xs') {
+            border-right: none;
+        }
+    }
+
+    .wpr-rocketcdn-pricing {
+	    background-color: $cWhite;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        padding: $space * 2;
+	    padding-bottom: $space * 4;
+        width: calc( 100% / 3 );
+	    max-width: 219px;
+
+        @include respond-to('xs') {
+            width: auto;
+        }
+
+        &-regular {
+            color: $cGreyDark3;
+            margin-bottom: $space;
+        }
+
+	    .wpr-rocketcdn-cta-billing-detail {
+		  margin-bottom: $space * 2;
+		  @include font-size(16,22);
+		}
+
+	    .wpr-rocketcdn-cta-currency {
+
+		    &-major {
+			  font-weight: 700;
+			  @include font-size(48,56);
+			}
+
+		    &-minor {
+			  font-weight: 700;
+			  vertical-align: top;
+			  @include font-size(24,32);
+			}
+		}
+    }
+
+    .wpr-rocketcdn-feature{
+        margin: $space * 3 0;
+        min-height: 30px;
+        padding-left: 62px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);
+        }
+    }
+
+    .wpr-rocketcdn-bandwidth:before {
+        content: url(../img/bandwidth.svg);
+    }
+
+    .wpr-rocketcdn-configuration:before {
+        content: url(../img/configuration.svg);
+    }
+
+    .wpr-rocketcdn-automatic:before {
+        content: url(../img/automatic.svg);
+    }
+
+    &-footer {
+	    color: $cGreyDark4;
+        font-weight: 600;
+        padding: $space * 2 $space $space;
+	    @include font-size(14,22);
+
+        & a {
+		  	position: relative;
+		  	padding-left: 22px;
+
+            &:before {
+                content: '';
+			  	position: absolute;
+				width: 14px;
+				height: 15px;
+			  	background: url("../img/icon-i-circle.svg") no-repeat center center;
+				top: 3px;
+				left: 0;
+            }
+        }
+    }
+
+    &-promo-footer {
+	    color: $cGreyDark4;
+	    padding: $space * 2 $space $space;
+	    @include font-size(14,22);
+	}
+}
+
+.wpr-rocketcdn-subscription {
+    text-align: end;
+
+    .wpr-rocketcdn-open {
+        color: $cGreyDark2;
+        text-decoration: underline;
+    }
+}

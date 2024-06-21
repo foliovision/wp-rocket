@@ -80,7 +80,7 @@ function PageManager(aElem) {
 
     // Click links not WP rocket to reset hash
     var $otherlinks = document.querySelectorAll('#adminmenumain a, #wpadminbar a');
-    for (var i = 0; i < this.$links.length; i++) {
+    for (var i = 0; i < $otherlinks.length; i++) {
         $otherlinks[i].onclick = function() {
             localStorage.setItem('wpr-hash', '');
         };
@@ -177,6 +177,10 @@ PageManager.prototype.change = function() {
     if (this.pageId == "imagify") {
         this.$sidebar.style.display = 'none';
         this.$tips.style.display = 'none';
+        this.$submitButton.style.display = 'none';
+    }
+
+    if (this.pageId == "tutorials") {
         this.$submitButton.style.display = 'none';
     }
 };

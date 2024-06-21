@@ -1,5 +1,6 @@
 <?php
-defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Adds domain names to the list of DNS Prefetch printed by wp_resource_hints
@@ -31,4 +32,3 @@ function rocket_dns_prefetch( $hints, $relation_type ) {
 	return $hints;
 }
 add_filter( 'wp_resource_hints', 'rocket_dns_prefetch', 10, 2 );
-

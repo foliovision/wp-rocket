@@ -1,85 +1,24 @@
-var gulp = require('gulp');
-var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var babel = require('babelify');
-var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-var rename = require("gulp-rename");
+const requireDir  = require('require-dir');
+// Require all tasks.
+requireDir('./src/js/gulp/tasks', { recurse: true });
 
-
-/* Task to compile sass admin */
-gulp.task('sass', function () {
-  return gulp.src('./src/scss/main.scss')
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(rename('wpr-admin.css'))
-    .pipe(gulp.dest('assets/css'));
-});
-
-/* Task to compile sass admin RTL */
-gulp.task('sass_rtl', function () {
-    return gulp.src('./src/scss/rtl.scss')
-      .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-      .pipe(rename('wpr-admin-rtl.css'))
-      .pipe(gulp.dest('assets/css'));
-  });
-
-/* Task to compile sass modal */
-gulp.task('sass_modal', function () {
-  return gulp.src('./src/scss/modal.scss')
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(rename('wpr-modal.css'))
-    .pipe(gulp.dest('assets/css'));
-});
-
- /* Task to watch sass changes */
-gulp.task('sass:watch', function () {
-  gulp.watch('./src/scss/main.scss', ['sass']);
-  gulp.watch('./src/scss/modal.scss', ['sass_modal']);
-});
-
-
-
-/* Task to compile JS */
-function compile(watch) {
-    var bundler = watchify(browserify('./src/js/global/app.js', {debug: true}).transform(babel));
-
-    // Admin JS
-    function rebundle() {
-        bundler.bundle()
-                .on('error', function (err) {
-                    console.error(err);
-                    this.emit('end');
-                })
-                .pipe(source('wpr-admin.js'))
-                .pipe(buffer())
-                .pipe(uglify())
-                .pipe(sourcemaps.init({loadMaps: false}))
-                .pipe(sourcemaps.write('./'))
-                .pipe(gulp.dest('assets/js'));
-    }
-
-    if (watch) {
-        bundler.on('update', function () {
-            console.log('-> bundling...');
-            rebundle();
-        });
-    }
-
-    rebundle(); 
-}
-
-function watch() {
-    return compile(true);
-};
-
-gulp.task('build', function () {
-    return compile();
-});
-gulp.task('watch', function () {
-    return watch();
-});
-
-gulp.task('default', ['watch', 'sass', 'sass:watch']);
+/*
+* List of gulp tasks:
+*
+* CSS Tasks:
+*
+* gulp build:saas:unmin => Builds Full admin CSS, the unminified version (wpr-admin.css)
+* gulp build:saas:min   => Builds Full admin CSS, the minified version (wpr-admin.min.css)
+* gulp build:sass:all   => Builds all admin CSS files (wpr-admin.css, wpr-admin.min.css, wpr-admin-rtl.css, wpr-admin-rtl.min.css)
+* gulp sass:watch       => Watches all admin CSS files mentioned above and builds them again with any change.
+*
+* JS Tasks:
+*
+* gulp build:js:app:unmin       => Builds admin app js file, the unminified version (wpr-admin.js)
+* gulp build:js:app:min         => Builds admin app js file, the minified version (wpr-admin.min.js)
+* gulp build:js:lazyloadcss:min => Builds lazyload CSS js file, the minified version (lazyload-css.min.js)
+* gulp build:js:lcp:min         => Builds lcp beacon script, the minified version (lcp-beacon.min.js)
+* gulp build:js:all             => Builds all js files mentioned above (wpr-admin.js, wpr-admin.min.js, lazyload-css.min.js, lcp-beacon.min.js)
+* gulp js:watch                 => Watches all js files changes and build them again with any change.
+*
+ */
